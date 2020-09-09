@@ -58,12 +58,12 @@ public class Course {
 
         for(String prereqCourseName : prereqCourseNames) {
             if(courses.stream()
-                    .anyMatch(k -> k.getDeptAndNumber() == prereqCourseName)
+                    .anyMatch(k -> k.getDeptAndNumber().equals(prereqCourseName)) // If there's actually a Course object with that name
                 && prereqs.stream()
-                    .anyMatch(k -> k.getDeptAndNumber() == prereqCourseName) == false)
+                    .anyMatch(k -> k.getDeptAndNumber().equals(prereqCourseName)) == false) // and the prereq course isn't already listed as a prereq
             {
                 prereqs.add(courses.stream()
-                        .filter(k -> k.getDeptAndNumber() == prereqCourseName)
+                        .filter(k -> k.getDeptAndNumber().equals(prereqCourseName))
                         .findFirst()
                         .get());
             }
@@ -84,7 +84,7 @@ public class Course {
     public static Boolean addPrereqToCourse(List<Course> courses, String targetCourseName, String prereqCourseName)
     {
                 if(courses.stream()
-                .anyMatch(k -> k.getDeptAndNumber() == targetCourseName))
+                .anyMatch(k -> k.getDeptAndNumber().equals(targetCourseName)))
                 {
                     courses.stream().findFirst().get().addPrereq(courses, prereqCourseName);
                     return true;
