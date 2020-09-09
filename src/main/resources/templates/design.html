@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Prerequisite Display</title>
+</head>
+<body>
+<h1>Plan your courses</h1>
+
+<div th:each="course : ${courses}">
+    <div>
+        <span th:text="${course.friendlyName}">FriendlyName</span>
+        <div th:each="prereq : ${course.prereqFriendlyNames}">
+            <span th:text="${prereq}">PrereqName</span>
+            <span>foo</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
