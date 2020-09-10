@@ -1,0 +1,144 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+footer{
+    /*background-color: coral;*/
+    clear:both;
+    margin-top:20px;
+}
+
+footer p{
+    /*background-color: darkgoldenrod;*/
+    margin:8px;
+}
+
+#tileLink{
+    /*background-color:lightsteelblue;*/
+    border:2px solid black;
+    border-radius:16px;
+    padding: 16px 8px;
+    margin-bottom:16px;
+    clear:both;
+    display: inline-block;
+    /*text-decoration: none;*/
+
+}
+
+#tileLink:link {
+    text-decoration: none;
+    background-color: darkslategray;
+    color: white;
+}
+
+#tileLink:visited
+{
+    text-decoration: none;
+    background-color: darkslategrey;
+    color: white;
+}
+
+#tileLink:hover {
+    background-color: lightsteelblue;
+}
+
+#tileLink:active {
+    background-color: cyan;
+}
+
+h3{
+    font-size: 16px;
+}
+
+h4{
+    font-size: 14px;
+}
+
+ul{
+    font-size: 12px;
+    /*background-color: lightpink;*/
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+
+.Wrapper{
+    text-align: center;
+    margin: auto;
+    max-width: 50%;
+    min-width: 500px;
+}
+
+.TileWrapper
+{
+    margin-bottom: 30px;
+}
+
+.HeroImage{
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 20px;
+    clear:both;
+    height:200px;
+}
+
+/* [------------------------------------------------] */
+/* [----------------- TILE STUFF -------------------] */
+.CourseTile{
+    /*background-color: darkseagreen;*/
+    padding: 10px;
+    margin:10px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 20px;
+    width:200px;
+    float:left;
+}
+
+.CourseTileTop{
+    padding:5px;
+    margin:auto;
+    margin-bottom: 0px;
+    text-align: center;
+    width: 90%;
+    /*background-color: coral;*/
+    clear:both;
+}
+
+.CourseTileTop p{
+    padding:0px;
+    margin:3px;
+    font-size: 16px;
+}
+
+.CourseTileTop p:first-child{
+    font-weight: bold;
+    font-size:20px;
+}
+
+.CourseTileBottom {
+    padding: 5px;
+    margin: auto;
+    text-align: left;
+    width: 90%;
+    /*background-color: cornflowerblue;*/
+    clear: both;
+}
+
+.CourseTileBottom_PrereqHeading{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.CourseTileBottom p{
+    padding:0px;
+    margin:3px;
+    font-size: 12px;
+}
+
+
+

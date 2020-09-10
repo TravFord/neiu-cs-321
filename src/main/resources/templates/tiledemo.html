@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <title>Tile Demo Page</title>
+</head>
+<body>
+    <div class="Wrapper">
+        <div th:each="tile : ${tiles}">
+             <div class="CourseTile">
+                 <div class="CourseTileTop">
+                     <p th:text="${tile.Dept} + '-' + ${tile.Number}">Name</p>
+                     <p th:text="${tile.Title}">Title</p>
+                 </div>
+                 <div class="CourseTileBottom">
+                     <p class="CourseTileBottom_PrereqHeading">Prerequisites:</p>
+                     <div th:each="prereq : ${tile.PrereqNames}">
+                         <p th:text="${prereq}">Name</p>
+                     </div>
+                 </div>
+             </div>
+        </div>
+        <footer>
+            <p>Copyright @2020</p>
+            <p>Travis Ford</p>
+            <p>CS-321-1</p>
+        </footer>
+    </div>
+</body>
+</html>

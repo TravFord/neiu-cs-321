@@ -4,10 +4,23 @@
     xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/styles.css">
+    <link th:href="@{styles.css}" rel="stylesheet" />
     <title>Course-O-Matic</title>
 </head>
 <body>
-    <h1>Welcome to Course-O-Matic!</h1>
-    <img th:src="@{images/map.jpg}"/>
+    <div class="Wrapper">
+        <h1>Welcome to Course-O-Matic!</h1>
+        <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
+<!--    <img src="../static/images/NEIUPortWithX.png" class="HeroImage"/><br/>-->
+        <a th:href="@{/tiledemo}" id="tileLink">CLICK HERE FOR TILE DEMO</a>
+<!--    <a href="./tiledemo" id="tileLink">CLICK HERE FOR TILE DEMO</a>-->
+
+        <footer>
+            <p>Copyright @2020</p>
+            <p>Travis Ford</p>
+            <p>CS-321-1</p>
+        </footer>
+    </div>
 </body>
 </html>

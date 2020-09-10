@@ -12,13 +12,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/design")
-public class DesignController {
+@RequestMapping("/courselist")
+public class CourseListController {
 
     @GetMapping
-    public String showDesignForm()
+    public String showCourseList()
     {
-        return "design";
+        return "courselist";
     }
 
     @ModelAttribute
@@ -38,11 +38,10 @@ public class DesignController {
             new Course( "6", "200", "CS", "Programming 2", new ArrayList<Course>(), new ArrayList<String>())
         );
 
+        Course.addPrereqToCourse(courses, "CS-200", "CS-100");
         Course.addPrereqToCourse(courses, "CS-300", "CS-200");
         Course.addPrereqToCourse(courses, "CS-300", "CS-215");
-        Course.addPrereqToCourse(courses, "CS-200", "CS-100");
-
-
+        Course.addPrereqToCourse(courses, "CS-301", "CS-200");
 
         return courses;
     }

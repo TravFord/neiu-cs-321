@@ -1,38 +1,38 @@
 package net.travisford.courseomatic;
 
 import lombok.Data;
-import lombok.NonNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class Course {
+// Note: The convention used across all Course-related classes: course name is a String concatenating department and course number: Department + "-" + Number. Ex: "CS-201".
+// The full title of the course, "Programming 1" for example, is referred to as the course "title"
     @Getter private final String courseId;
     @Getter @Setter private String courseNumber;
     @Getter @Setter private String dept;
-    @Getter @Setter private String friendlyName;
+    @Getter @Setter private String title;
     @Getter @Setter private ArrayList<Course> prereqs;
-    @Getter private ArrayList<String> prereqsDeptAndNumber;
+    private ArrayList<String> prereqsDeptAndNumber;
     @Getter private ArrayList<String> attributes;
 
-    public Course(String courseID, String courseNumber, String courseDept, String friendlyName, ArrayList<Course> prereqs, ArrayList<String> attributes) {
+    public Course(String courseID, String courseNumber, String courseDept, String title, ArrayList<Course> prereqs, ArrayList<String> attributes) {
         this.courseId = courseID;
         this.courseNumber = courseNumber;
         this.dept = courseDept;
-        this.friendlyName = friendlyName;
+        this.title = title;
         this.prereqs = prereqs;
         this.attributes = attributes;
     }
 
-    public ArrayList<String> getPrereqFriendlyNames() {
+    public ArrayList<String> getPrereqTitles() {
         ArrayList<String> output = new ArrayList<>();
         for(Course c : prereqs)
         {
-            output.add(c.friendlyName);
+            output.add(c.title);
         }
         return output;
     }
@@ -86,7 +86,11 @@ public class Course {
                 if(courses.stream()
                 .anyMatch(k -> k.getDeptAndNumber().equals(targetCourseName)))
                 {
-                    courses.stream().findFirst().get().addPrereq(courses, prereqCourseName);
+                    courses.stream()
+                            .filter(k -> k.getDeptAndNumber().equals(targetCourseName))
+                            .findFirst()
+                            .get()
+                            .addPrereq(courses, prereqCourseName);
                     return true;
                 }
 
