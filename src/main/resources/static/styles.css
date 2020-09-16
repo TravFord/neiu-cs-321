@@ -141,4 +141,10 @@ ul{
 }
 
 
+/* [------------------------------------------------] */
+/* [----------------- ADD-COURSE STUFF -------------] */
 
+#addCourseWrapper{
+    text-align: left;
+    min-width: auto;
+}

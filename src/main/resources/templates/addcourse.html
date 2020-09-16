@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <title>Add Course</title>
+</head>
+<body>
+    <div class="Wrapper" id="addCourseWrapper">
+        <form method="post" >
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" placeholder="CS"><br>
+            <label for="coursenumber">Course Number:</label>
+            <input type="text" id="coursenumber" name="coursenumber" placeholder="201"><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Programming 1"><br>
+
+            <p>Select course prerequisites:</p>
+            <ul th:each="course : ${courses}">
+                <li>
+                    <input type="checkbox" name="course" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}"/>
+                </li>
+            </ul>
+
+            <Button>Add Course</Button>
+
+        </form>
+    </div>
+</body>
+</html>
