@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <title>Add Course</title>
+</head>
+<body>
+    <div class="Wrapper" id="addCourseWrapper">
+        <form method="post" th:object="${newCourse}">
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="dept" th:field="${newCourse.dept}" placeholder="CS">
+            <span class="validationError" th:if="${#fields.hasErrors('dept')} "th:errors="${newCourse.dept}"></span><br>
+            <label for="coursenumber">Course Number:</label>
+            <input type="text" id="coursenumber" name="number" th:field="${newCourse.number}"placeholder="201">
+            <span class="validationError" th:if="${#fields.hasErrors('number')}"th:errors="${newCourse.number}"></span><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="title" th:field="${newCourse.title}" placeholder="Programming 1">
+            <span class="validationError" th:if="${#fields.hasErrors('title')}"th:errors="${newCourse.title}"></span><br>
+            <p>Select course prerequisites:</p>
+            <ul th:each="course : ${courses}">
+                <li>
+                    <input type="checkbox" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}" th:field="${newCourse.prereqNames}"/>
+                </li>
+            </ul>
+
+            <Button>Add Course</Button>
+
+        </form>
+    </div>
+</body>
+</html>
