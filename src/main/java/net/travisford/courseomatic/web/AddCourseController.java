@@ -1,13 +1,16 @@
 package net.travisford.courseomatic.web;
 
 import net.travisford.courseomatic.Course;
+import net.travisford.courseomatic.SimpleCourse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +26,11 @@ public class AddCourseController {
     }
 
     @PostMapping
-    public String processAddCourse()
+    public String processAddCourse(@Valid @ModelAttribute("newCourse") SimpleCourse newCourse, Errors errors, Model model)
     {
-        // Save course
+        if(errors.hasErrors()){
+            return "addcourse";
+        }
         return "redirect:/addcompleteform";
     }
 
@@ -33,8 +38,9 @@ public class AddCourseController {
     public void addAttributes(Model model)
     {
         List<Course> courses =  createCourseList();
-
+        SimpleCourse newCourse = new SimpleCourse();
         model.addAttribute("courses", courses);
+        model.addAttribute("newCourse", newCourse);
 
     }
 
