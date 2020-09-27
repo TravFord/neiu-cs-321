@@ -31,11 +31,11 @@ public class CourseListController {
 
     private List<Course> createCourseList(){
         List<Course> courses = Arrays.asList(
-            new Course( "1", "300", "CS", "Server Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
-            new Course( "34", "301", "CS", "Databases", new ArrayList<Course>(), new ArrayList<String>()),
-            new Course( "745", "100", "CS", "Programming 1", new ArrayList<Course>(), new ArrayList<String>()),
-            new Course( "130", "215", "CS", "Client Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
-            new Course( "6", "200", "CS", "Programming 2", new ArrayList<Course>(), new ArrayList<String>())
+                new Course( (long)1, "300", "CS", "Server Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
+                new Course( (long)34, "301", "CS", "Databases", new ArrayList<Course>(), new ArrayList<String>()),
+                new Course( (long)745, "100", "CS", "Programming 1", new ArrayList<Course>(), new ArrayList<String>()),
+                new Course( (long)130, "215", "CS", "Client Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
+                new Course( (long)6, "200", "CS", "Programming 2", new ArrayList<Course>(), new ArrayList<String>())
         );
 
         Course.addPrereqToCourse(courses, "CS-200", "CS-100");

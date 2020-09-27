@@ -4,14 +4,18 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 public class Course {
 // Note: The convention used across all Course-related classes: course name is a String concatenating department and course number: Department + "-" + Number. Ex: "CS-201".
 // The full title of the course, "Programming 1" for example, is referred to as the course "title"
-    @Getter private final String courseId;
+    @Getter private Long courseId;
     @Getter @Setter private String courseNumber;
     @Getter @Setter private String dept;
     @Getter @Setter private String title;
@@ -19,13 +23,18 @@ public class Course {
     private ArrayList<String> prereqsDeptAndNumber;
     @Getter private ArrayList<String> attributes;
 
-    public Course(String courseID, String courseNumber, String courseDept, String title, ArrayList<Course> prereqs, ArrayList<String> attributes) {
+    public Course(Long courseID, String courseNumber, String courseDept, String title, ArrayList<Course> prereqs, ArrayList<String> attributes) {
         this.courseId = courseID;
         this.courseNumber = courseNumber;
         this.dept = courseDept;
         this.title = title;
         this.prereqs = prereqs;
         this.attributes = attributes;
+    }
+
+    public Course()
+    {
+        this((long)0,"","","", new ArrayList<Course>(), new ArrayList<String>() );
     }
 
     public ArrayList<String> getPrereqTitles() {
@@ -95,5 +104,11 @@ public class Course {
                 }
 
                 return false;
+    }
+
+    public Boolean saveToDb()
+    {
+
+        return false;
     }
 }

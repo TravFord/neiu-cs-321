@@ -31,32 +31,31 @@ public class AddCourseController {
         if(errors.hasErrors()){
             return "addcourse";
         }
+
+
         return "redirect:/addcompleteform";
     }
 
     @ModelAttribute
     public void addAttributes(Model model)
     {
-        List<Course> courses =  createCourseList();
+        List<SimpleCourse> courses =  createSimpleCourseList();
         SimpleCourse newCourse = new SimpleCourse();
         model.addAttribute("courses", courses);
         model.addAttribute("newCourse", newCourse);
 
     }
 
-    private List<Course> createCourseList(){
-        List<Course> courses = Arrays.asList(
-                new Course( "1", "300", "CS", "Server Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
-                new Course( "34", "301", "CS", "Databases", new ArrayList<Course>(), new ArrayList<String>()),
-                new Course( "745", "100", "CS", "Programming 1", new ArrayList<Course>(), new ArrayList<String>()),
-                new Course( "130", "215", "CS", "Client Side Web Development", new ArrayList<Course>(), new ArrayList<String>()),
-                new Course( "6", "200", "CS", "Programming 2", new ArrayList<Course>(), new ArrayList<String>())
+    private List<SimpleCourse> createSimpleCourseList(){
+        List<SimpleCourse> courses = Arrays.asList(
+                new SimpleCourse( "CS", "300", "Server Side Web Development", new ArrayList<String>()),
+                new SimpleCourse( "CS", "301", "Databases", new ArrayList<String>()),
+                new SimpleCourse( "CS", "100", "Programming 1", new ArrayList<String>()),
+                new SimpleCourse( "CS", "215", "Client Side Web Development", new ArrayList<String>()),
+                new SimpleCourse( "CS", "200", "Programming 2", new ArrayList<String>())
         );
 
-        Course.addPrereqToCourse(courses, "CS-200", "CS-100");
-        Course.addPrereqToCourse(courses, "CS-300", "CS-200");
-        Course.addPrereqToCourse(courses, "CS-300", "CS-215");
-        Course.addPrereqToCourse(courses, "CS-301", "CS-200");
+
 
         return courses;
     }

@@ -11,9 +11,5 @@ import java.util.HashSet;
 public class CourseOfStudy {
     @NonNull private ArrayList<Course> courses;
 
-
-
-
-
 }
 
