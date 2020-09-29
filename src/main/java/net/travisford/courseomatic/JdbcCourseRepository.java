@@ -1,11 +1,14 @@
 package net.travisford.courseomatic;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import net.travisford.courseomatic.Course;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +18,21 @@ import java.util.Map;
 public class JdbcCourseRepository implements CourseRepository{
 
     private JdbcTemplate jdbc;
+    private SimpleJdbcInsert courseInserter;
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    public JdbcCourseRepository (JdbcTemplate jdbc){
+        this.jdbc = jdbc;
+        this.courseInserter = new SimpleJdbcInsert(jdbc).withTableName("Courses").usingGeneratedKeyColumns("courseId");
+        this.objectMapper = new ObjectMapper();
+    }
 
     @Override
     public Iterable<Course> findAll() {
         //https://stacktips.com/tutorials/spring/query-database-using-jdbctemplate-in-spring#40-querying-for-multiple-rows
         List<Course> courses = new ArrayList<Course>();
-        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.courseID, c.title, c.courseNumber, c.dept \n" +
-                "   FROM Courses c INNER JOIN \n" +
-                "   Course_Prereq cp ON c.courseId = cp.prereqId\n" +
-                "   WHERE cp.courseID = courseID" );
+        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.courseID, c.title, c.courseNumber, c.dept FROM Courses");
 
         for (Map<String, Object> row : returnedRows) {
             Course course = new Course(
@@ -47,12 +56,40 @@ public class JdbcCourseRepository implements CourseRepository{
 
     @Override
     public Course findOne(long courseId) {
-        return null;
+        Course newCourse = jdbc.queryForObject("SELECT c.courseID, c.title, c.courseNumber, c.dept FROM Courses WHERE c.courseID = ?"
+                , this::mapRowToCourse
+                , courseId );
+
+        ArrayList<Course> courses = new ArrayList<>();
+        // https://www.baeldung.com/java-iterable-to-collection
+        this.findAll().forEach(courses::add);
+        newCourse.addPrereqs(courses, getPrereqs(courseId));
+        return newCourse;
     }
 
     @Override
-    public Boolean save(Course course) {
-        return false;
+    public void save(Course course) {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> values =
+                objectMapper.convertValue(course, Map.class);
+        values.put("title", course.getTitle());
+        values.put("courseNumber", course.getCourseNumber());
+        values.put("dept", course.getDept());
+
+        if(jdbc.queryForObject("SELECT COUNT(*) FROM Course WHERE courseNumber = ? AND dept = ?", Integer.class , course.getCourseNumber(), course.getDept() ) == 0) // Course does not yet exist
+        {
+            long newCourseID = courseInserter.executeAndReturnKey(values)
+                            .longValue();
+        }
+        else
+        {
+            jdbc.update("UPDATE Course SET title = ?, courseNumber = ?, dept = ? WHERE courseId = ?", course.getTitle(), course.getCourseNumber(), course.getDept(), course.getCourseId());
+        }
+
+        jdbc.update("DELETE FROM Course_Prereq WHERE courseId = ?", course.getCourseId());
+
+        course.getPrereqs().forEach(
+                x -> jdbc.update("INSERT IGNORE INTO Course_Prereq (courseId, prereqId) VALUES (?,?)  ", course.getCourseId(), x.getCourseId()));
     }
 
     private List<String> getPrereqs(long courseId){
@@ -61,13 +98,24 @@ public class JdbcCourseRepository implements CourseRepository{
         List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.dept, c.courseNumber, " +
                 "   FROM Courses c INNER JOIN " +
                 "   Course_Prereq cp ON c.courseId = cp.prereqId" +
-                "   WHERE cp.courseID = courseID" );
+                "   WHERE cp.courseID = ?", courseId );
 
         for (Map<String, Object> row : returnedRows) {
-            String courseName = (String)row.get("dept") + "-" + (String)row.get("courseNumber");
+            String courseName = row.get("dept") + "-" + row.get("courseNumber");
             courseNames.add(courseName);
         }
 
         return courseNames;
+    }
+
+    private Course mapRowToCourse(ResultSet rs, int rowNum) throws SQLException {
+       return new Course(
+                       Long.parseLong(rs.getString("courseId")),
+                       rs.getString("title"),
+                       rs.getString("courseNumber"),
+                       rs.getString("dept"),
+                       new ArrayList<Course>(),
+                       new ArrayList<String>()
+       );
     }
 }
