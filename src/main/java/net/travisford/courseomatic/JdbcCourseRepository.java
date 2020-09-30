@@ -32,14 +32,14 @@ public class JdbcCourseRepository implements CourseRepository{
     public Iterable<Course> findAll() {
         //https://stacktips.com/tutorials/spring/query-database-using-jdbctemplate-in-spring#40-querying-for-multiple-rows
         List<Course> courses = new ArrayList<Course>();
-        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.courseID, c.title, c.courseNumber, c.dept FROM Courses");
+        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT courseID, title, courseNumber, dept FROM Courses");
 
         for (Map<String, Object> row : returnedRows) {
             Course course = new Course(
                     (long)row.get("courseId"),
-                    (String)row.get("title"),
                     (String)row.get("courseNumber"),
                     (String)row.get("dept"),
+                    (String)row.get("title"),
                     new ArrayList<Course>(),
                     new ArrayList<String>()
             );
@@ -56,7 +56,7 @@ public class JdbcCourseRepository implements CourseRepository{
 
     @Override
     public Course findOne(long courseId) {
-        Course newCourse = jdbc.queryForObject("SELECT c.courseID, c.title, c.courseNumber, c.dept FROM Courses WHERE c.courseID = ?"
+        Course newCourse = jdbc.queryForObject("SELECT courseID, title, courseNumber, dept FROM Courses WHERE courseID = ?"
                 , this::mapRowToCourse
                 , courseId );
 
@@ -69,6 +69,8 @@ public class JdbcCourseRepository implements CourseRepository{
 
     @Override
     public void save(Course course) {
+
+        //pack up course data for write to DB
         @SuppressWarnings("unchecked")
         Map<String, Object> values =
                 objectMapper.convertValue(course, Map.class);
@@ -76,18 +78,20 @@ public class JdbcCourseRepository implements CourseRepository{
         values.put("courseNumber", course.getCourseNumber());
         values.put("dept", course.getDept());
 
+        // Course doesn't exist, create course and grab ID
         if(jdbc.queryForObject("SELECT COUNT(*) FROM Course WHERE courseNumber = ? AND dept = ?", Integer.class , course.getCourseNumber(), course.getDept() ) == 0) // Course does not yet exist
         {
             long newCourseID = courseInserter.executeAndReturnKey(values)
                             .longValue();
         }
+        // Course already exists. Update
         else
         {
             jdbc.update("UPDATE Course SET title = ?, courseNumber = ?, dept = ? WHERE courseId = ?", course.getTitle(), course.getCourseNumber(), course.getDept(), course.getCourseId());
         }
 
+        // Remove and re-add DB prereqs
         jdbc.update("DELETE FROM Course_Prereq WHERE courseId = ?", course.getCourseId());
-
         course.getPrereqs().forEach(
                 x -> jdbc.update("INSERT IGNORE INTO Course_Prereq (courseId, prereqId) VALUES (?,?)  ", course.getCourseId(), x.getCourseId()));
     }
@@ -95,6 +99,7 @@ public class JdbcCourseRepository implements CourseRepository{
     private List<String> getPrereqs(long courseId){
         List<String> courseNames = new ArrayList<String>();
 
+        // Get all prereq names (ex: CS-101) from the DB
         List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.dept, c.courseNumber, " +
                 "   FROM Courses c INNER JOIN " +
                 "   Course_Prereq cp ON c.courseId = cp.prereqId" +
