@@ -41,7 +41,8 @@ public class JdbcCourseRepository implements CourseRepository{
                     (String)row.get("dept"),
                     (String)row.get("title"),
                     new ArrayList<Course>(),
-                    new ArrayList<String>()
+                    new ArrayList<String>(),
+                    this
             );
             courses.add(course);
         }
@@ -78,29 +79,40 @@ public class JdbcCourseRepository implements CourseRepository{
         values.put("courseNumber", course.getCourseNumber());
         values.put("dept", course.getDept());
 
-        // Course doesn't exist, create course and grab ID
-        if(jdbc.queryForObject("SELECT COUNT(*) FROM Course WHERE courseNumber = ? AND dept = ?", Integer.class , course.getCourseNumber(), course.getDept() ) == 0) // Course does not yet exist
+        // Check if dept already exists, if not, add
+        if(jdbc.queryForObject("SELECT COUNT(*) FROM Departments WHERE departmentAbbr = ?", Integer.class , course.getDept()) == 0) // Dept does not yet exist
         {
-            long newCourseID = courseInserter.executeAndReturnKey(values)
-                            .longValue();
+            jdbc.update("INSERT INTO Departments (departmentAbbr, departmentName) VALUES (?,'')", course.getDept());
+        }
+
+        // Course doesn't exist, create course and grab ID
+        if(jdbc.queryForObject("SELECT COUNT(*) FROM Courses WHERE courseNumber = ? AND dept = ?", Integer.class , course.getCourseNumber(), course.getDept() ) == 0) // Course does not yet exist
+        {
+            course.setCourseId(courseInserter.executeAndReturnKey(values).longValue());
         }
         // Course already exists. Update
         else
         {
-            jdbc.update("UPDATE Course SET title = ?, courseNumber = ?, dept = ? WHERE courseId = ?", course.getTitle(), course.getCourseNumber(), course.getDept(), course.getCourseId());
+            Course alreadySavedCourse = jdbc.queryForObject("SELECT courseID, title, courseNumber, dept FROM Courses WHERE dept = ? AND courseNumber = ?"
+                    , this::mapRowToCourse
+                    , course.getDept()
+                    , course.getCourseNumber()
+                    );
+            course.setCourseId(alreadySavedCourse.getCourseId());
+            jdbc.update("UPDATE Courses SET title = ?, courseNumber = ?, dept = ? WHERE courseId = ?", course.getTitle(), course.getCourseNumber(), course.getDept(), course.getCourseId());
         }
 
         // Remove and re-add DB prereqs
         jdbc.update("DELETE FROM Course_Prereq WHERE courseId = ?", course.getCourseId());
         course.getPrereqs().forEach(
-                x -> jdbc.update("INSERT IGNORE INTO Course_Prereq (courseId, prereqId) VALUES (?,?)  ", course.getCourseId(), x.getCourseId()));
+                x -> jdbc.update("INSERT INTO Course_Prereq (courseId, prereqId) VALUES (?,?)  ", course.getCourseId(), x.getCourseId()));
     }
 
     private List<String> getPrereqs(long courseId){
         List<String> courseNames = new ArrayList<String>();
 
         // Get all prereq names (ex: CS-101) from the DB
-        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.dept, c.courseNumber, " +
+        List<Map<String, Object>> returnedRows = jdbc.queryForList("SELECT c.dept, c.courseNumber " +
                 "   FROM Courses c INNER JOIN " +
                 "   Course_Prereq cp ON c.courseId = cp.prereqId" +
                 "   WHERE cp.courseID = ?", courseId );
@@ -120,7 +132,8 @@ public class JdbcCourseRepository implements CourseRepository{
                        rs.getString("courseNumber"),
                        rs.getString("dept"),
                        new ArrayList<Course>(),
-                       new ArrayList<String>()
+                       new ArrayList<String>(),
+                  this
        );
     }
 }

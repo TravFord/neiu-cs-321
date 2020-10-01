@@ -1,7 +1,9 @@
 package net.travisford.courseomatic.web;
 
 import net.travisford.courseomatic.Course;
-import net.travisford.courseomatic.SimpleCourse;
+import net.travisford.courseomatic.CourseRepository;
+import net.travisford.courseomatic.JdbcCourseRepository;
+//import net.travisford.courseomatic.SimpleCourse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,6 +21,12 @@ import java.util.List;
 @RequestMapping("/addcourse")
 public class AddCourseController {
 
+    private CourseRepository courseRepo;
+
+    public AddCourseController(CourseRepository courseRepo){
+        this.courseRepo = courseRepo;
+    }
+
     @GetMapping
     public String showAddCourse()
     {
@@ -26,37 +34,29 @@ public class AddCourseController {
     }
 
     @PostMapping
-    public String processAddCourse(@Valid @ModelAttribute("newCourse") SimpleCourse newCourse, Errors errors, Model model)
+    public String processAddCourse(@Valid @ModelAttribute("newCourse") Course newCourse, Errors errors, Model model)
     {
         if(errors.hasErrors()){
-            return "addcourse";
+            return "/addcourse";
         }
-
-
+        newCourse.saveToDb();
         return "redirect:/addcompleteform";
     }
 
     @ModelAttribute
     public void addAttributes(Model model)
     {
-        List<SimpleCourse> courses =  createSimpleCourseList();
-        SimpleCourse newCourse = new SimpleCourse();
+        List<Course> courses =  createCourseList();
+        Course newCourse = new Course(courseRepo);
         model.addAttribute("courses", courses);
         model.addAttribute("newCourse", newCourse);
 
     }
 
-    private List<SimpleCourse> createSimpleCourseList(){
-        List<SimpleCourse> courses = Arrays.asList(
-                new SimpleCourse( "CS", "300", "Server Side Web Development", new ArrayList<String>()),
-                new SimpleCourse( "CS", "301", "Databases", new ArrayList<String>()),
-                new SimpleCourse( "CS", "100", "Programming 1", new ArrayList<String>()),
-                new SimpleCourse( "CS", "215", "Client Side Web Development", new ArrayList<String>()),
-                new SimpleCourse( "CS", "200", "Programming 2", new ArrayList<String>())
-        );
+    private List<Course> createCourseList(){
 
-
-
-        return courses;
+        ArrayList<Course> output = new ArrayList<>();
+        courseRepo.findAll().forEach(x -> output.add(x));
+        return output;
     }
 }

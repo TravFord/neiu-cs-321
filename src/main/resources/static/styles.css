@@ -17,7 +17,7 @@ footer p{
     margin:8px;
 }
 
-#tileLink{
+.PageLink{
     /*background-color:lightsteelblue;*/
     border:2px solid black;
     border-radius:16px;
@@ -29,25 +29,25 @@ footer p{
 
 }
 
-#tileLink:link {
+.PageLink:link {
     text-decoration: none;
     background-color: darkslategray;
     color: white;
 }
 
-#tileLink:visited
+.PageLink:visited
 {
     text-decoration: none;
     background-color: darkslategrey;
     color: white;
 }
 
-#tileLink:hover {
+.PageLink:hover {
     background-color: lightsteelblue;
 }
 
-#tileLink:active {
-    background-color: cyan;
+.PageLink:active {
+    background-color: #00ffff;
 }
 
 h3{
