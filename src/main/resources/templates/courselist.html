@@ -15,9 +15,9 @@
     <div class = CourseBox>
         <h3 th:text="${course.deptAndNumber} + ' ' + ${course.title}">Title</h3>
         <h4 th:if="${not #lists.isEmpty(course.prereqs)}">Prerequisites:</h4>
-        <ul th:each="prereq : ${course.prereqs}">
-            <li th:text="${prereq.title}">PrereqName</li>
-        </ul>
+            <ul th:each="prereq : ${course.prereqs}">
+                <li th:text="${prereq.title}">PrereqName</li>
+            </ul>
     </div>
 </div>
 <br/><br/>

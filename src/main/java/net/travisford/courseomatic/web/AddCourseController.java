@@ -1,9 +1,7 @@
 package net.travisford.courseomatic.web;
 
 import net.travisford.courseomatic.Course;
-import net.travisford.courseomatic.CourseRepository;
-import net.travisford.courseomatic.JdbcCourseRepository;
-//import net.travisford.courseomatic.SimpleCourse;
+import net.travisford.courseomatic.data.ICourseRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,17 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("/addcourse")
 public class AddCourseController {
 
-    private CourseRepository courseRepo;
+    private ICourseRepository courseRepo;
 
-    public AddCourseController(CourseRepository courseRepo){
+    public AddCourseController(ICourseRepository courseRepo)
+    {
         this.courseRepo = courseRepo;
+        Course.seedCourses(courseRepo);
     }
 
     @GetMapping
