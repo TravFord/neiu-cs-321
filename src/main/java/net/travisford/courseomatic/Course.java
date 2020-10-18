@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.travisford.courseomatic.data.ICourseRepository;
+import org.apache.catalina.User;
+import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -299,4 +301,5 @@ public class Course {
 
         repo.save(this);
     }
+
 }
