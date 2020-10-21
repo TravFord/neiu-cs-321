@@ -1,8 +1,8 @@
 package net.travisford.courseomatic.data;
 
-import net.travisford.courseomatic.User;
+import net.travisford.courseomatic.security.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<org.apache.catalina.User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsername(String name);
 }

@@ -1,7 +1,6 @@
 package net.travisford.courseomatic.security;
 
 import net.travisford.courseomatic.data.UserRepository;
-import net.travisford.courseomatic.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

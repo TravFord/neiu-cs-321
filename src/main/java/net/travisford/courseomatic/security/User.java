@@ -1,4 +1,4 @@
-package net.travisford.courseomatic;
+package net.travisford.courseomatic.security;
 
 import lombok.AccessLevel;
 import lombok.Data;
