@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <link href="../static/styles.css" rel="stylesheet" />
+    <title>Login</title>
+</head>
+<body>
+    <div class="Wrapper">
+        <h1>Welcome to Course-O-Matic!</h1>
+        <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
+        <h1>Login:</h1><br/>
+        <form method="post" th:object="${user}">
+            <label for="userName">First Name:</label>
+            <input type="text" id="userName" name="userName" th:field="${user.userName}" placeholder="">
+            <span class="validationError" th:if="${#fields.hasErrors('userName')} "th:errors="${user.userName}"></span><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" th:field="${user.password}" placeholder="">
+            <span class="validationError" th:if="${#fields.hasErrors('password')} "th:errors="${user.password}"></span><br>
+            <Button class="PageLink">LOG IN</Button>
+        </form>
+
+        <a th:href="@{/}" class="PageLink">HOME</a>
+        <a th:href="@{/register}" class="PageLink">REGISTER</a>
+        <footer>
+            <p>Copyright @2020</p>
+            <p>Travis Ford</p>
+            <p>CS-321-1</p>
+        </footer>
+    </div>
+</body>
+</html>

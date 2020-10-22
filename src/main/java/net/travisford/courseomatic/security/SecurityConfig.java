@@ -43,12 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .hasRole("USER")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**", "/")
+                .antMatchers("/h2-console/**", "/","/login")
                 .permitAll();
-
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
-
 }
