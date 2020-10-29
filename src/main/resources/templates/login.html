@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{styles.css}" rel="stylesheet" />
@@ -11,13 +13,18 @@
         <h1>Welcome to Course-O-Matic!</h1>
         <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
         <h1>Login:</h1><br/>
-        <form method="post" th:object="${user}">
-            <label for="userName">First Name:</label>
-            <input type="text" id="userName" name="userName" th:field="${user.userName}" placeholder="">
-            <span class="validationError" th:if="${#fields.hasErrors('userName')} "th:errors="${user.userName}"></span><br>
+
+<!--        <div th:if="${error}">-->
+<!--            "Unable to login. check your username and password"-->
+<!--        </div>-->
+
+        <form method="post" th:action="@{/login}" id="loginForm">
+            <label for="userName">Username:</label>
+            <input type="text" id="username" name="username">
+            <br/>
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" th:field="${user.password}" placeholder="">
-            <span class="validationError" th:if="${#fields.hasErrors('password')} "th:errors="${user.password}"></span><br>
+            <input type="password" id="password" name="password">
+            <br/>
             <Button class="PageLink">LOG IN</Button>
         </form>
 

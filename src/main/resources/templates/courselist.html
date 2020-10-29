@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="Wrapper">
+        <h1 th:text="'Hi '" + >Hi</h1>
         <h1>Welcome to Course-O-Matic!</h1>
         <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
         <h1>Plan your courses</h1>
@@ -24,6 +25,9 @@
         </div>
         <br/><br/>
         <a th:href="@{/addcourse}" class="PageLink">CLICK HERE TO ADD COURSE</a>
+        <form method="post" th:action="@{/logout}">
+            <input type="submit" value="Logout" class="PageLink"/>
+        </form>
         <footer>
             <p>Copyright @2020</p>
             <p>Travis Ford</p>

@@ -21,11 +21,23 @@ public class UserRepositoryUserDetailsService implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException
     {
-        User user = userRepo.findByUsername(userName);
+        User user = userRepo.findByUsernameIgnoreCase(userName);
         if(user != null)
         {
             return user;
         }
         throw new UsernameNotFoundException("User " + userName + " is not found");
+    }
+
+    public boolean UserExists(String username)
+    {
+        if(userRepo.existsByUsernameIgnoreCase(username))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
