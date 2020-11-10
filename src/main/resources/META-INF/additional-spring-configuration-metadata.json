@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "courses.courseDisplayLimit",
+      "type": "java.lang.Integer",
+      "description": "Sets the maximum number of courses to display."
+  }
+] }

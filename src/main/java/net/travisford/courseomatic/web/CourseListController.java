@@ -3,6 +3,7 @@ package net.travisford.courseomatic.web;
 import net.travisford.courseomatic.Course;
 import net.travisford.courseomatic.security.User;
 import net.travisford.courseomatic.data.ICourseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,13 @@ import java.util.List;
 public class CourseListController {
 
     private ICourseRepository courseRepo;
+    private CourseProperties properties;
 
-    public CourseListController(ICourseRepository courseRepo)
+    @Autowired
+    public CourseListController(ICourseRepository courseRepo, CourseProperties properties)
     {
+       this.properties = properties;
+
         this.courseRepo = courseRepo;
         Course.seedCourses(courseRepo);
     }
@@ -39,7 +44,12 @@ public class CourseListController {
         List<Course> courses = new ArrayList<Course>();
         courseRepo.findAll().forEach(course -> {courses.add(course);});
 
-        model.addAttribute("courses", courses);
+        List<Course> limitedCourses = new ArrayList<Course>();
+        for(int i = 0; i < properties.getCourseDisplayLimit() && i < courses.size() ; i++ )
+        {
+            limitedCourses.add(courses.get(i));
+        }
+        model.addAttribute("courses", limitedCourses);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     }
