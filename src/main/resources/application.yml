@@ -1,0 +1,13 @@
+---
+spring:
+  h2:
+    console:
+      - enabled: true
+  datasource:
+    - url: jdbc:h2:file:c:/Users/Travis/Dropbox/CS-321_Server_Side/neiu-cs-321/h2db/comaticdb
+    - username: admin
+    - password:
+    - driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      - ddl-auto: create-drop
