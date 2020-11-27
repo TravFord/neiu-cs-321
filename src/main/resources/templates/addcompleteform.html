@@ -2,28 +2,66 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/styles.css">
-    <link th:href="@{styles.css}" rel="stylesheet" />
-    <title>Course Added</title>
-</head>
-<body>
-    <div class="Wrapper">
-        <h1>Course-O-Matic!</h1>
-        <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
-        <p>Thank you for your submission!</p>
+    <head>
+        <meta charset="UTF-8">
+        <link th:href="@{styles.css}" rel="stylesheet" />
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}"/>
+        <title>Course Added</title>
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand">Course-O-Matic</span>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/addcourse' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/addcourse}">Add Course</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/courselist' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/courselist}">View Courses</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/login' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/login}">Log In</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/register' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item"
+                    th:if="${#authentication.getName().equals('anonymousUser') == false}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <h1 class="col-12 text-center">Welcome to Course-O-Matic!</h1>
+        </div>
+        <div class="row justify-content-center mt-2 mb-2">
+            <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
+        </div>
+        <p class="row justify-content-center mt-2 mb-2">Thank you for your submission!</p>
         <br/>
-        <a th:href="@{/addcourse}" class="PageLink">CLICK HERE TO ADD COURSE</a>
-        <a th:href="@{/courselist}" class="PageLink">CLICK HERE TO VIEW ALL COURSES</a>
-        <form method="post" th:action="@{/logout}">
-            <input type="submit" value="Logout" class="PageLink"/>
-        </form>
         <footer>
-            <p>Copyright @2020</p>
-            <p>Travis Ford</p>
-            <p>CS-321-1</p>
+            <p class="row justify-content-center mt-1 mb-1">Copyright @2020</p>
+            <p class="row justify-content-center mt-1 mb-1">Travis Ford</p>
+            <p class="row justify-content-center mt-1 mb-1">CS-321-1</p>
         </footer>
     </div>
-</body>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}" ></script>
+    <script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}" ></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}" ></script>
+    </body>
 </html>

@@ -5,40 +5,87 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{styles.css}" rel="stylesheet" />
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}"/>
+    <title>Register</title>
 </head>
 <body>
-<div class="Wrapper">
-    <h1>Welcome to Course-O-Matic!</h1>
-    <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
-    <h1>Register:</h1><br/>
-    <form method="post" th:action="@{/register}" th:object="${registrationForm}">
-        <label for="username">UserName: </label>
-        <input type="text" th:name="username" th:value="*{username}" id="username">
-        <span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
-        <br/>
-        <label for="password">Password: </label>
-        <input type="password" th:name="password" th:value="*{password}" id="password">
-        <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
-        <br/>
-        <label for="email">Email Address: </label>
-        <input type="email" th:name="email" th:value="*{email}" id="email">
-        <span class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
-        <br/>
-        <label for="fullname">Full Name: </label>
-        <input type="text" th:name="fullname" th:value="*{fullname}" id="fullname">
-        <span class="validationError" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}">Name Error</span>
-        <br/>
-        <input type="submit" value="Register" class="PageLink"/>
-        <br/>
-    </form>
-    <a th:href="@{/}" class="PageLink">HOME</a>
-    <a th:href="@{/register}" class="PageLink">LOGIN</a>
-    <footer>
-        <p>Copyright @2020</p>
-        <p>Travis Ford</p>
-        <p>CS-321-1</p>
-    </footer>
-</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand">Course-O-Matic</span>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/addcourse' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/addcourse}">Add Course</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/courselist' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/courselist}">View Courses</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/login' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/login}">Log In</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/register' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item"
+                    th:if="${#authentication.getName().equals('anonymousUser') == false}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <h1 class="col-12 text-center">Welcome to Course-O-Matic!</h1>
+        </div>
+        <div class="row justify-content-center mt-2 mb-2">
+            <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
+        </div>
+        <h1 class="row justify-content-center mt-2 mb-2">Register:</h1><br/>
+        <form method="post"  class="container-fluid " th:action="@{/register}" th:object="${registrationForm}">
+            <div class="row form-group justify-content-center align-items-center">
+                <label class="col-form-label col-2 text-right font-weight-bold" for="username">UserName: </label>
+                <input class="form-control col-md-2" type="text" th:name="username" th:value="*{username}" id="username">
+                <span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+            </div>
+            <div class="row form-group justify-content-center">
+                <label class="col-form-label col-2 text-right font-weight-bold" for="password">Password: </label>
+                <input class="form-control col-md-2" type="password" th:name="password" th:value="*{password}" id="password">
+                <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+            </div>>
+            <div class="row form-group justify-content-center">
+                <label class="col-form-label col-2 text-right font-weight-bold" for="email">Email Address: </label>
+                <input class="form-control col-md-2" type="email" th:name="email" th:value="*{email}" id="email">
+                <span class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+            </div>
+            <div class="row form-group justify-content-center">
+                <label class="col-form-label col-2 text-right font-weight-bold" for="fullname">Full Name: </label>
+                <input class="form-control col-md-2" type="text" th:name="fullname" th:value="*{fullname}" id="fullname">
+                <span class="validationError" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}">Name Error</span>
+            </div>>
+            <div class="row form-group justify-content-center align-content-end">
+                <input class="form-control col-md-2" type="submit" value="Register"/>
+            </div>
+        </form>
+        <footer>
+            <p class="row justify-content-center mt-1 mb-1">Copyright @2020</p>
+            <p class="row justify-content-center mt-1 mb-1">Travis Ford</p>
+            <p class="row justify-content-center mt-1 mb-1">CS-321-1</p>
+        </footer>
+    </div>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}" ></script>
+    <script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}" ></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}" ></script>
 </body>
 </html>

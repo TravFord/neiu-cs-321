@@ -2,6 +2,14 @@
     box-sizing: border-box;
 }
 
+nav{
+    margin: auto;
+}
+
+.navbar ul{
+    font-size: 24px;
+}
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -25,8 +33,15 @@ footer p{
     margin-bottom:16px;
     clear:both;
     display: inline-block;
+    background-color: darkslategray;
+    color: white;
     /*text-decoration: none;*/
 
+}
+
+.Clear
+{
+    clear: both;
 }
 
 .PageLink:link {
@@ -69,7 +84,7 @@ ul{
 .Wrapper{
     text-align: center;
     margin: auto;
-    max-width: 50%;
+    max-width: 80%;
     min-width: 500px;
 }
 
@@ -90,65 +105,10 @@ ul{
     color: red;
 }
 
-/* [------------------------------------------------] */
-/* [----------------- TILE STUFF -------------------] */
-.CourseTile{
-    /*background-color: darkseagreen;*/
-    padding: 10px;
-    margin:10px;
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 20px;
-    width:200px;
-    float:left;
+.courseCard{
+    background-color: darkslategrey;
 }
 
-.CourseTileTop{
-    padding:5px;
-    margin:auto;
-    margin-bottom: 0px;
-    text-align: center;
-    width: 90%;
-    /*background-color: coral;*/
-    clear:both;
-}
-
-.CourseTileTop p{
-    padding:0px;
-    margin:3px;
+.courseCard li{
     font-size: 16px;
-}
-
-.CourseTileTop p:first-child{
-    font-weight: bold;
-    font-size:20px;
-}
-
-.CourseTileBottom {
-    padding: 5px;
-    margin: auto;
-    text-align: left;
-    width: 90%;
-    /*background-color: cornflowerblue;*/
-    clear: both;
-}
-
-.CourseTileBottom_PrereqHeading{
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.CourseTileBottom p{
-    padding:0px;
-    margin:3px;
-    font-size: 12px;
-}
-
-
-/* [------------------------------------------------] */
-/* [----------------- ADD-COURSE STUFF -------------] */
-
-#addCourseWrapper{
-    text-align: left;
-    min-width: auto;
 }

@@ -5,34 +5,80 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{styles.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}"/>
     <title>Course Prerequisite Display</title>
 </head>
 <body>
-    <div class="Wrapper">
-        <h1 th:text="'Hi '" + >Hi</h1>
-        <h1>Welcome to Course-O-Matic!</h1>
-        <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
-        <h1>Plan your courses</h1>
-        <h2>Course List:</h2>
-        <div th:each="course : ${courses}">
-            <div class = CourseBox>
-                <h3 th:text="${course.deptAndNumber} + ' ' + ${course.title}">Title</h3>
-                <h4 th:if="${not #lists.isEmpty(course.prereqs)}">Prerequisites:</h4>
-                    <ul th:each="prereq : ${course.prereqs}">
-                        <li th:text="${prereq.title}">PrereqName</li>
-                    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand">Course-O-Matic</span>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/addcourse' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/addcourse}">Add Course</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/courselist' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/courselist}">View Courses</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/login' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/login}">Log In</a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/register' ? 'active' : ''}"
+                    th:if="${#authentication.getName().equals('anonymousUser')}">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item"
+                    th:if="${#authentication.getName().equals('anonymousUser') == false}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <h1 class="col-12 text-center">Welcome to Course-O-Matic!</h1>
+        </div>
+        <div class="row justify-content-center mt-2 mb-2">
+            <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
+        </div>
+        <h1 class="row justify-content-center mt-2 mb-2">Plan your courses</h1>
+        <h2 class="row justify-content-center mt-2 mb-4">Course List:</h2>
+        <div  class="row card-deck mx-auto mt-2 mb-2 col-sm-10 col-xl-5"th:each="course : ${courses}">
+            <div class="card justify-content-center border-dark courseCard">
+                <h3 class="card-title m-4" th:text="${course.deptAndNumber} + ' ' + ${course.title}">Title</h3>
+                <div class="card mb-3">
+                    <div class="card-body m-2">
+                    <h5 class="card-title" >Prerequisites:</h5>
+                        <ul th:unless="${#lists.isEmpty(course.prereqs)}" th:each="prereq : ${course.prereqs}">
+                            <li  class="card-text" th:text="${prereq.title}">PrereqName</li>
+                        </ul>
+                        <ul th:if="${#lists.isEmpty(course.prereqs)}">
+                            <li class="card-text" th:text="None"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <br/><br/>
-        <a th:href="@{/addcourse}" class="PageLink">CLICK HERE TO ADD COURSE</a>
-        <form method="post" th:action="@{/logout}">
-            <input type="submit" value="Logout" class="PageLink"/>
-        </form>
+        <a class="row justify-content-center mt-2 mb-2" th:href="@{/addcourse}"  >CLICK HERE TO ADD COURSE</a>
         <footer>
-            <p>Copyright @2020</p>
-            <p>Travis Ford</p>
-            <p>CS-321-1</p>
+            <p class="row justify-content-center mt-1 mb-1">Copyright @2020</p>
+            <p class="row justify-content-center mt-1 mb-1">Travis Ford</p>
+            <p class="row justify-content-center mt-1 mb-1">CS-321-1</p>
         </footer>
     </div>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}" ></script>
+    <script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}" ></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}" ></script>
 </body>
 </html>
