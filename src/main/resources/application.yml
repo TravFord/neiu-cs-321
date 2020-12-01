@@ -12,4 +12,10 @@ spring:
     hibernate:
       - ddl-auto: create-drop
 courses:
-  courseDisplayLimit: 6
+  courseDisplayLimit: 20
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: false
+    path: /error

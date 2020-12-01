@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/base :: headData">
+    <title>Error 500</title>
+</head>
+<body>
+<nav th:insert="fragments/base :: navData"></nav>
+<div class="container-fluid mt-5">
+    <div th:insert="fragments/base :: headerData"></div>
+    <div th:insert="fragments/base :: imageData"></div>
+    <div class="container-fluid-mt-5">
+        <div class="row justify-content-center">
+            <h2>Aw shucks, something went awry. Sorry about that!</h2>
+        </div>
+    </div>
+    <footer th:insert="fragments/base :: footerData"></footer>
+</div>
+<div th:insert="fragments/base :: scriptData"></div>
+</body>
+</html>
