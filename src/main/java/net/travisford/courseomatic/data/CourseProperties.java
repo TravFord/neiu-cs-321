@@ -1,4 +1,4 @@
-package net.travisford.courseomatic.web;
+package net.travisford.courseomatic.data;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

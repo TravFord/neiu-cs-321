@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="semesterRack" class="SemesterRack row col-md-9">
+    <div class="col-12">Header</div>
+    <div th:replace="fragments/dashboardBits :: courseSlot"></div>
+    <div th:replace="fragments/dashboardBits :: courseSlot"></div>
+    <div th:replace="fragments/dashboardBits :: courseSlot"></div>
+    <div th:replace="fragments/dashboardBits :: courseSlot"></div>
+<!--    <div th:replace="fragments/dashboardBits :: courseSlot"></div>-->
+<!--    <div th:replace="fragments/dashboardBits :: courseSlot"></div>-->
+</div>
+
+<div th:fragment="courseSlot" class="col CourseSlot">
+    <div card card-header-actions>
+        <div class="card-header">
+            <span>CS-600</span>
+            <span>Awesome Class</span>
+        </div>
+        <div class="card-body">
+            <p>8:00-10:00</p>
+            <p>M W  F</p>
+            <p>LWH Room 205</p>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</body>
+</html>

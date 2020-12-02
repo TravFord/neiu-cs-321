@@ -2,9 +2,9 @@
     box-sizing: border-box;
 }
 
-nav{
-    margin: auto;
-}
+/*nav{*/
+/*    margin: auto;*/
+/*}*/
 
 .navbar ul{
     font-size: 24px;
@@ -105,10 +105,40 @@ ul{
     color: red;
 }
 
-.courseCard{
-    background-color: darkslategrey;
+.SemesterRack{
+    /*background-color: #dbe1ea;*/
+    /*border: solid #376fca 2px;*/
+    min-height: 40px;
+    height: auto;
+    margin-bottom:20px;
 }
 
-.courseCard li{
-    font-size: 16px;
+.SemesterBoard{
+    background-color: coral;
+}
+
+SemesterHeader{
+    text-align: center;
+}
+
+.CourseSlot{
+    background-color: #e9e3dc;
+    border: solid #4e3710 1px;
+    margin:3px;
+    margin-bottom:6px;
+
+}
+
+/*.InnerSlot{*/
+/*    background-color: ghostwhite;*/
+/*    border-color: black;*/
+/*    border-radius: 5px;*/
+/*    margin:auto;*/
+/*    height:90%;*/
+/*    margin-top:5px;*/
+/*    margin-bottom:5px;*/
+
+/*}*/
+
+.navbar{
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/base :: headData">
+    <title>Student Course Dashboard</title>
+</head>
+<body>
+    <div id="wrapper" class="container-fluid">
+        <nav th:replace="fragments/base :: navData">
+        </nav>
+        <div id="mainWindow" >
+            <div id="semesterBoard">
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div th:replace="fragments/dashboardBits :: semesterRack"></div>
+                <div class="ml-auto">Add semester</div>
+            </div>
+        </div>
+        <div id="rightSidebar">
+            <div id="rightSidebar_left">
+                <div id="matching">
+
+                </div>
+                <div id="addButtons">
+
+                </div>
+            </div>
+                <div id="rightSidebar_right">
+                    <div id="filters">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="prerequisiteFor" data-toggle="dropdown">
+                                Course Attribute
+                            </button>
+                            <div class="dropdown-menu">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="majorDropdowns"></div>
+                </div>
+            <div id="requirements">
+            </div>
+        </div>
+    </div>
+        <footer th:replace="fragments/base :: footerData">
+        </footer>
+    </div>
+    <div th:replace="fragments/base :: scriptData"></div>
+</body>
+</html>
