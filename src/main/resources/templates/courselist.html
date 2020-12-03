@@ -5,32 +5,66 @@
 <head th:insert="fragments/base :: headData">
     <title>Course List</title>
 </head>
-<body>
+<body onload="moveCard()">
     <nav th:insert="fragments/base :: navData"></nav>
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt-5 Wrapper justify-content-center">
         <div th:insert="fragments/base :: headerData"></div>
         <div th:insert="fragments/base :: imageData"></div>
-        <h1 class="row justify-content-center mt-2 mb-2">Plan your courses</h1>
+        <h1 class="row justify-content-center mt-2 mb-2">Available Courses:</h1>
         <h2 class="row justify-content-center mt-2 mb-4">Course List:</h2>
-        <div  class="row card-deck mx-auto mt-2 mb-2 col-sm-10 col-xl-5"th:each="course : ${courses}">
-            <div class="card justify-content-center border-dark courseCard">
-                <h3 class="card-title m-4" th:text="${course.deptAndNumber} + ' ' + ${course.title}">Title</h3>
-                <div class="card mb-3">
-                    <div class="card-body m-2">
-                    <h5 class="card-title" >Prerequisites:</h5>
-                        <ul th:unless="${#lists.isEmpty(course.prereqs)}" th:each="prereq : ${course.prereqs}">
-                            <li  class="card-text" th:text="${prereq.title}">PrereqName</li>
-                        </ul>
-                        <ul th:if="${#lists.isEmpty(course.prereqs)}">
-                            <li class="card-text" th:text="None"></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+
+
+        <div th:insert="fragments/base :: courseCardGroup(${courses})">
         </div>
-        <a class="row justify-content-center mt-2 mb-2" th:href="@{/addcourse}"  >CLICK HERE TO ADD COURSE</a>
-        <footer th:insert="fragments/base :: footerData"></footer>
+        <footer th:insert="fragments/base :: footerData">
+        </footer>
+        <div th:insert="fragments/base :: addCardArea"></div>
+        <div th:insert="fragments/base :: scriptData"></div>
     </div>
-    <div th:insert="fragments/base :: scriptData"></div>
+    <div th:replace="fragments/base :: detailModal"></div>
+    <div th:replace="fragments/base :: deleteModal"></div>
+
+
+
+<script th:inline="javascript">
+    let courseArray = [[${courses}]];
+
+    function moveCard()
+    {
+        document.getElementById('coursesGroup').firstChild.before(document.getElementById('addCardArea'));
+    }
+    function deleteCourse(id){
+
+    }
+
+    function detailsModal(id){
+        while (document.getElementById("courseModal_PrereqsList").hasChildNodes()) {
+            document.getElementById("courseModal_PrereqsList").removeChild(document.getElementById("courseModal_PrereqsList").lastChild);
+        }
+
+        if(findCourse(id) != null) {
+            course = findCourse(id);
+            document.getElementById("courseModal_CourseName").textContent = course.title;
+            document.getElementById("courseModal_CourseNumber").textContent = course.deptAndNumber;
+            let prereqs = [];
+            prereqs = Array.from(course.prereqsDeptAndNumber);
+            for(let i = 0; i < prereqs.length; i++) {
+                let node = document.createElement("li");
+                let textNode = document.createTextNode(prereqs[i]);
+                node.appendChild(textNode);
+                document.getElementById("courseModal_PrereqsList").appendChild(node);
+            }
+        }
+
+    }
+    function findCourse(id)
+    {
+        //console.log(courseArray.find(x=>x.deptAndNumber === id));
+        return courseArray.find(x=>x.deptAndNumber === id);
+    }
+
+
+
+</script>
 </body>
 </html>

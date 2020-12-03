@@ -7,11 +7,15 @@
     </head>
     <body>
         <nav th:insert="fragments/base :: navData"></nav>
-        <div class="container-fluid mt-5">
+        <div class="container-fluid mt-5 Wrapper">
             <div th:insert="fragments/base :: headerData"></div>
             <div th:insert="fragments/base :: imageData"></div>
             <footer th:insert="fragments/base :: footerData"></footer>
         </div>
+
         <div th:insert="fragments/base :: scriptData"></div>
+
+
+
     </body>
 </html>

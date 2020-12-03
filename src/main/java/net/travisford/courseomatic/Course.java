@@ -302,4 +302,15 @@ public class Course {
         repo.save(this);
     }
 
+    public void deleteFromDb()
+    {
+        Course course = repo.findFirstByDeptAndCourseNumber(this.dept, this.courseNumber);
+        if(course != null)
+        {
+            this.setCourseId(course.getCourseId());
+        }
+
+        repo.delete(this);
+    }
+
 }

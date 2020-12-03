@@ -1,3 +1,12 @@
+/*
+palette
+#123A40 Dark Teal
+#60D2CB Turquoise
+#C1666B Pink
+#FFFFFF White
+#2B061E Dark Purple
+*/
+
 *{
     box-sizing: border-box;
 }
@@ -12,6 +21,7 @@
 
 body {
     font-family: Arial, sans-serif;
+    /*background-color: #123a40;*/
 }
 
 footer{
@@ -80,18 +90,14 @@ ul{
     margin-top: 3px;
 }
 
-
 .Wrapper{
-    text-align: center;
-    margin: auto;
-    max-width: 80%;
-    min-width: 500px;
+    /*color: #ffffff;*/
+    /*background-color: #123a40;*/
+    min-height: 100vh;
+    height: 100%;
 }
 
-.TileWrapper
-{
-    margin-bottom: 30px;
-}
+
 
 .HeroImage{
     border: 2px solid black;
@@ -114,19 +120,65 @@ ul{
 }
 
 .SemesterBoard{
-    background-color: coral;
 }
 
 SemesterHeader{
     text-align: center;
 }
 
+.CourseButton{
+    border-color:#123a40;
+    border-width: 2px;
+    font-weight: bold;
+    font-size:18px;
+    background-color: #C1666B;
+    color: black;
+    box-shadow: 2px 2px 3px black;
+}
+
 .CourseSlot{
-    background-color: #e9e3dc;
-    border: solid #4e3710 1px;
+    border: solid #000000 1px;
     margin:3px;
     margin-bottom:6px;
 
+}
+
+.CourseCard{
+    margin: 10px;
+    box-shadow: 5px 5px 5px black;
+    color:black;
+    background-color: #8fb0b8;
+}
+
+.CourseOBackground{
+    color:black;
+    background-color: #8fb0b8;
+}
+
+.CourseCardFooter{
+    border-radius: 5px;
+    box-shadow:2px 2px 2px black;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.CourseCardBody{}
+
+.CourseCardBodyRight{
+    /*box-shadow: 1px 1px 2px black;*/
+    height:100%;
+    float:right;
+    width: 120px;
+
+}
+
+.CourseCardBodyLeft{}
+
+.CourseCardHeader{
+    font-size: large;
+    text-align: center;
+    font-weight: bold;
+    background-color: #406d77;;
 }
 
 /*.InnerSlot{*/
@@ -142,3 +194,10 @@ SemesterHeader{
 
 .navbar{
 }
+/*https://getbootstrap.com/docs/4.0/components/card/*/
+
+
+
+
+
+

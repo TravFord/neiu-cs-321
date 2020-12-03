@@ -2,18 +2,38 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+
+
+
+
 <head th:fragment="headData">
     <meta charset="UTF-8">
-    <link th:href="@{styles.css}" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}"/>
+    <link th:href="@{styles.css}" rel="stylesheet" />
 </head>
+
+
+
+
 <body>
+
+
+
+
     <div th:fragment="headerData" class="row justify-content-center">
         <h1 class="col-12 text-center">Welcome to Course-O-Matic!</h1>
     </div>
+
+
+
+
     <div th:fragment="imageData" class="row justify-content-center mt-2 mb-2">
         <img th:src="@{images/NEIUPortWithX.png}" class="HeroImage"/><br/>
     </div>
+
+
+
+
     <nav th:fragment="navData" class="navbar navbar-expand-lg navbar-light bg-light">
         <span class="navbar-brand mr-auto">Course-O-Matic</span>
         <button class="navbar-toggler" type="button"
@@ -35,9 +55,6 @@
                 <li class="nav-item" th:classappend="${#request.getServletPath() == '/courselist' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/courselist}">View Courses</a>
                 </li>
-<!--                <li class="nav-item" th:classappend="${#request.getServletPath() == '/dashboard' ? 'active' : ''}">-->
-<!--                    <a class="nav-link" th:href="@{/dashboard}">Student Dashboard</a>-->
-<!--                </li>-->
                 <li class="nav-item" th:classappend="${#request.getServletPath() == '/login' ? 'active' : ''}"
                     th:if="${#authentication.getName().equals('anonymousUser')}">
                     <a class="nav-link" th:href="@{/login}">Log In</a>
@@ -53,15 +70,122 @@
             </ul>
         </div>
     </nav>
+
+
+
+
     <footer th:fragment="footerData">
         <p class="row justify-content-center mt-1 mb-1">Copyright @2020</p>
         <p class="row justify-content-center mt-1 mb-1">Travis Ford</p>
         <p class="row justify-content-center mt-1 mb-1">CS-321-1</p>
     </footer></div>
+
+
+
+
     <div th:fragment="scriptData">
         <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}" ></script>
         <script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}" ></script>
         <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}" ></script>
     </div>>
+
+
+
+
+
+    <div th:fragment="courseCardGroup(courses)" class="row justify-content-center align-self-center" id="coursesGroup" style="text-align: center">
+        <div th:replace="fragments/base :: courseCard (${courses})"></div>
+    </div>
+
+
+
+    <div th:fragment="courseCard (courses)" class="card CourseCard col-sm-12 col-lg-3" style="float:left;" th:each="course : ${courses}">
+        <div class="card-header CourseCardHeader">
+            <div style="float:left;" th:text="${course.deptAndNumber}">AA-000</div>
+            <div style="float:right;" th:text="${course.title}">Default Title</div>
+        </div>
+        <div class="card-body CourseCardBody">
+            <div class="btn-group row w-100" role="group" style="margin:auto;">
+                <button type="button" class="CourseButton col-4 btn btn-secondary" onclick="location.href = '/editcourse/'">EDIT</button>
+                <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.deptAndNumber}" data-target="#detailModal" onclick="detailsModal(this.getAttribute('data-id'));">DETAILS</button>
+                <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.deptAndNumber}" data-target="#detailModal" onclick="deleteModal(this.getAttribute('data-id'));">DELETE</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:fragment="addCardArea" id="addCardArea" class="CourseCard card col-sm-12 col-lg-3 h-50 " style="float:left;">
+        <a href="/addcourse" class="card-body justify-content-center align-content-center stretched-link" style="font-size: 36px;">CREATE NEW COURSE</a>
+    </div>
+
+
+    <div th:fragment="detailModal" th:id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <div id="courseModal_CourseName" style="float:left;">AA-000</div>
+                    <div id="courseModal_CourseNumber" style="float:right;">Default Title</div>
+                </div >
+                <h3> Prerequisites</h3>
+                <ul id="courseModal_PrereqsList">
+
+                </ul>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary CourseButton" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="deleteModal" th:id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <div id="deleteModal_CourseName" style="float:left;">AA-000</div>
+                    <div id="deleteModal_CourseNumber" style="float:right;">Default Title</div>
+                </div >
+                <p class="modal-body">
+                    <p>Are you sure you want to delete this class?</p>
+                    <p>This will delete the class permanently, not just from your schedule.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary CourseButton" data-dismiss="modal">DELETE</button>
+                    <button type="button" class="btn btn-secondary CourseButton" data-dismiss="modal">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--    <div th:fragment="editModalBody(course, courses)" class="modal-body CourseOBackground">-->
+<!--        <form method="post" th:object="${course}">-->
+<!--            <div class="form-group">-->
+<!--                <label for="department">Department:</label>-->
+<!--                <input type="text" class="form-control" id="department" name="dept" th:field="${course.dept}" placeholder="CS">-->
+<!--                <span class="validationError" th:if="${#fields.hasErrors('dept')} "th:errors="${course.dept}"></span><br>-->
+<!--                <label for="edit_coursenumber">Course Number:</label>-->
+<!--                <input type="text" class="form-control" id="edit_coursenumber" name="number" th:field="${course.courseNumber}"placeholder="201">-->
+<!--                <span class="validationError" th:if="${#fields.hasErrors('courseNumber')}"th:errors="${course.courseNumber}"></span><br>-->
+<!--                <label for="name">Name:</label>-->
+<!--                <input type="text" class="form-control" id="name" name="title" th:field="${course.title}" placeholder="Programming 1">-->
+<!--                <span class="validationError" th:if="${#fields.hasErrors('title')}"th:errors="${course.title}"></span><br>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <p>Select course prerequisites:</p>-->
+<!--                <ul th:each="course : ${courses}">-->
+<!--                    <li>                                                                                                               &lt;!&ndash;   TODO: Remove ridiculous setter hack&ndash;&gt;-->
+<!--                        <input type="checkbox" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}" th:field="${course.newPrereqs}"/>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <Button type="submit" class="CourseButton">Add Course</Button>-->
+<!--        </form>-->
+
+        </form>
+    </div>
+
 </body>
 </html>

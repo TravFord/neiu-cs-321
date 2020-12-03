@@ -13,7 +13,28 @@
     <div th:insert="fragments/base :: imageData"></div>
 
 
-
+    <form method="post" th:object="${course}">
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" class="form-control" id="department" name="dept" th:field="${course.dept}" placeholder="CS">
+            <span class="validationError" th:if="${#fields.hasErrors('dept')} "th:errors="${course.dept}"></span><br>
+            <label for="edit_coursenumber">Course Number:</label>
+            <input type="text" class="form-control" id="edit_coursenumber" name="number" th:field="${course.courseNumber}"placeholder="201">
+            <span class="validationError" th:if="${#fields.hasErrors('courseNumber')}"th:errors="${course.courseNumber}"></span><br>
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="title" th:field="${course.title}" placeholder="Programming 1">
+            <span class="validationError" th:if="${#fields.hasErrors('title')}"th:errors="${course.title}"></span><br>
+        </div>
+        <div class="form-group">
+            <p>Select course prerequisites:</p>
+            <ul th:each="course : ${courses}">
+                <li>                                                                                                               <!--   TODO: Remove ridiculous setter hack-->
+                    <input type="checkbox" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}" th:field="${newCourse.newPrereqs}"/>
+                </li>
+            </ul>
+        </div>
+        <Button type="submit" class="CourseButton">Add Course</Button>
+    </form>
 
 
     <footer th:replace="fragments/base :: footerData">
