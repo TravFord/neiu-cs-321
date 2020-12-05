@@ -2,7 +2,8 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/base :: headData">
+<head>
+    <div th:replace="fragments/base :: headData"></div>
     <title>Course List</title>
 </head>
 <body onload="moveCard()">
@@ -14,35 +15,109 @@
         <h2 class="row justify-content-center mt-2 mb-4">Course List:</h2>
 
 
-        <div th:insert="fragments/base :: courseCardGroup(${courses})">
+        <div  class="row justify-content-center align-self-center" id="coursesGroup" style="text-align: center">
+            <div  class="card CourseCard col-sm-12 col-lg-3" style="float:left;" th:each="course : ${courses}">
+                <div class="card-header CourseCardHeader">
+                    <div style="float:left;" th:text="${course.deptAndNumber}">AA-000</div>
+                    <div style="float:right;" th:text="${course.title}">Default Title</div>
+                </div>
+                <div class="card-body CourseCardBody">
+                    <div class="btn-group row w-100" role="group" style="margin:auto;">
+                        <a th:href="@{/editcourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-4 btn btn-secondary">EDIT</a>
+                        <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"
+                                data-target="#detailModal" onclick="detailsModal(this.getAttribute('data-id'));">DETAILS</button>
+                        <a th:href="@{/deletecourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-4 btn btn-secondary">DELETE</a>
+<!--                        <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"-->
+<!--                        <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"-->
+<!--                                data-target="#deleteModal" onclick="deleteModal(this.getAttribute('data-id'));">DELETE</button>-->
+                    </div>
+                </div>
+            </div>
         </div>
+
         <footer th:insert="fragments/base :: footerData">
         </footer>
         <div th:insert="fragments/base :: addCardArea"></div>
         <div th:insert="fragments/base :: scriptData"></div>
     </div>
-    <div th:replace="fragments/base :: detailModal"></div>
-    <div th:replace="fragments/base :: deleteModal"></div>
+
+<!--    <div th:id="deleteModal" class="modal fade" tabindex="-1" role="dialog">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content ">-->
+<!--                <div class="modal-header">-->
+<!--                    <div id="deleteModal_CourseName" style="float:left;">AA-000</div>-->
+<!--                    <div id="deleteModal_CourseNumber" style="float:right;">Default Title</div>-->
+<!--                </div >-->
+<!--                <p class="modal-body">-->
+<!--                    <form id="deleteForm" method="post" action="">-->
+<!--                        <p>Are you sure you want to delete this course?</p>-->
+<!--                        <p>This will delete the course permanently, not just from your schedule.</p>-->
+<!--                    </form>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type = "submit" class="btn btn-secondary CourseButton" data-courseId="" data-dismiss="modal">DELETE</button>-->
+<!--                <button type="button" class="btn btn-secondary CourseButton" data-dismiss="modal">CANCEL</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div  th:id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header CourseCardHeader">
+                    <div id="courseModal_CourseNumber" style="float:right;">Default Title</div>
+                    <div id="courseModal_CourseName" style="float:left;">AA-000</div>
+                </div >
+                <h3> Prerequisites</h3>
+                <ul id="courseModal_PrereqsList">
+
+                </ul>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary CourseButton" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
 <script th:inline="javascript">
     let courseArray = [[${courses}]];
 
+
     function moveCard()
     {
         document.getElementById('coursesGroup').firstChild.before(document.getElementById('addCardArea'));
     }
-    function deleteCourse(id){
 
-    }
 
-    function detailsModal(id){
+    // function deleteModal(id)
+    // {
+    //     if(findCourse(id) != null)
+    //     {
+    //         let course = findCourse(id);
+    //         document.getElementById("deleteModal_CourseName").textContent = course.title;
+    //         document.getElementById("deleteModal_CourseNumber").textContent = course.deptAndNumber;
+    //         let deleteLink = window.location.href + 'delete/' + id;
+    //
+    //         console.log('DEBUG: delete href = ' + deleteLink);
+    //         document.getElementById('deleteForm').action = deleteLink;
+    //     }
+    // }
+
+
+
+    function detailsModal(id)
+    {
+       // console.log("detailsmodal");
         while (document.getElementById("courseModal_PrereqsList").hasChildNodes()) {
             document.getElementById("courseModal_PrereqsList").removeChild(document.getElementById("courseModal_PrereqsList").lastChild);
         }
-
+       // console.log("detailsmodal2");
         if(findCourse(id) != null) {
+           // console.log("found id");
             course = findCourse(id);
             document.getElementById("courseModal_CourseName").textContent = course.title;
             document.getElementById("courseModal_CourseNumber").textContent = course.deptAndNumber;
@@ -55,12 +130,13 @@
                 document.getElementById("courseModal_PrereqsList").appendChild(node);
             }
         }
-
     }
     function findCourse(id)
     {
-        //console.log(courseArray.find(x=>x.deptAndNumber === id));
-        return courseArray.find(x=>x.deptAndNumber === id);
+        // console.log(id);
+        // console.log(courseArray);
+        // console.log(courseArray.find(x=>x.courseId == id));
+        return courseArray.find(x=>x.courseId == id);
     }
 
 

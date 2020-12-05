@@ -2,38 +2,43 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/base :: headData">
+<head>
+    <div th:replace="fragments/base :: headData"></div>
     <title>Add Course</title>
+</head>
 <body>
     <nav th:insert="fragments/base :: navData"></nav>
-    <div class="container-fluid mt-5">
-        <div th:insert="fragments/base :: headerData"></div>
-        <div th:insert="fragments/base :: imageData"></div>
-        <div class="row justify-content-center mt-2 mb-2" id="addCourseWrapper">
+    <div class="container-fluid mt-5 ">
+        <div class="col MaxWidthWrapper">
+            <div th:insert="fragments/base :: headerData"></div>
+            <div th:insert="fragments/base :: imageData"></div>
+            <h5>Add New Course</h5>
+            <div class="row justify-content-center mt-2 mb-2" id="addCourseWrapper">
 
-            <form method="post" th:object="${newCourse}">
-                <div class="form-group">
-                    <label for="department">Department:</label>
-                    <input type="text" class="form-control" id="department" name="dept" th:field="${newCourse.dept}" placeholder="CS">
-                    <span class="validationError" th:if="${#fields.hasErrors('dept')} "th:errors="${newCourse.dept}"></span><br>
-                    <label for="edit_coursenumber">Course Number:</label>
-                    <input type="text" class="form-control" id="edit_coursenumber" name="number" th:field="${newCourse.courseNumber}"placeholder="201">
-                    <span class="validationError" th:if="${#fields.hasErrors('courseNumber')}"th:errors="${newCourse.courseNumber}"></span><br>
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name" name="title" th:field="${newCourse.title}" placeholder="Programming 1">
-                    <span class="validationError" th:if="${#fields.hasErrors('title')}"th:errors="${newCourse.title}"></span><br>
-                </div>
-                <div class="form-group">
-                    <p>Select course prerequisites:</p>
-                    <ul th:each="course : ${courses}">
-                        <li>                                                                                                               <!--   TODO: Remove ridiculous setter hack-->
-                            <input type="checkbox" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}" th:field="${newCourse.newPrereqs}"/>
-                        </li>
-                    </ul>
-                </div>
-                <Button type="submit" class="CourseButton">Add Course</Button>
-            </form>
+                <form method="post" th:object="${newCourse}">
+                    <div class="form-group">
+                        <label for="department">Department:</label>
+                        <input type="text" class="form-control" id="department" name="dept" th:field="${newCourse.dept}" placeholder="CS">
+                        <span class="validationError" th:if="${#fields.hasErrors('dept')} "th:errors="${newCourse.dept}"></span><br>
+                        <label for="edit_coursenumber">Course Number:</label>
+                        <input type="text" class="form-control" id="edit_coursenumber" name="number" th:field="${newCourse.courseNumber}"placeholder="201">
+                        <span class="validationError" th:if="${#fields.hasErrors('courseNumber')}"th:errors="${newCourse.courseNumber}"></span><br>
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="title" th:field="${newCourse.title}" placeholder="Programming 1">
+                        <span class="validationError" th:if="${#fields.hasErrors('title')}"th:errors="${newCourse.title}"></span><br>
+                    </div>
+                    <div class="form-group">
+                        <p>Select course prerequisites:</p>
+                        <ul class="list-group" th:each="course : ${courses}">
+                            <li class="list-group-item">                                                                                                               <!--   TODO: Remove ridiculous setter hack-->
+                                <input class="form-check-label PrereqChecks" type="checkbox" th:value="${course.deptAndNumber}" th:text="${course.deptAndNumber} + ' ' + ${course.title}" th:field="${newCourse.newPrereqs}"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <Button type="submit" class="CourseButton">Add Course</Button>
+                </form>
 
+            </div>
         </div>
         <footer th:insert="fragments/base :: footerData"></footer>
     </div>

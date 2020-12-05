@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/base :: headData"></div>
+    <title>Edit Course</title>
+</head>
+<body>
+<div id="wrapper" class="container-fluid">
+    <nav th:replace="fragments/base :: navData">
+    </nav>
+    <div class="col MaxWidthWrapper">
+
+        <div th:insert="fragments/base :: headerData"></div>
+        <div th:insert="fragments/base :: imageData"></div>
+        <h2>Delete <span th:text="${course.deptAndNumber}"></span> <span th:text="${course.title}"></span></h2>
+
+        <form method="post" th:object="${course}">
+              <div class="modal-content ">
+                  <div class="modal-body">
+                      <div>
+                          <p>Are you sure you want to delete this course?</p>
+                          <p th:if="${hasPrereqs}">This course is a prerequisite for other courses! If you delete it, it will be removed as a prerequisite for all courses.</p>
+                          <p th:unless="${hasPrereqs}">This will delete the course permanently, not just from your schedule.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type = "submit" class="btn btn-secondary CourseButton" data-courseId="" data-dismiss="modal">DELETE</button>
+                  <a class="btn btn-secondary CourseButton" th:href="@{/courselist}">CANCEL</a>
+              </div>
+        </form>
+
+
+        <footer th:replace="fragments/base :: footerData">
+        </footer>
+    </div>
+</form>
+<div th:replace="fragments/base :: scriptData"></div>
+
+</body>
+</html>

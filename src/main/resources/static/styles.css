@@ -19,6 +19,25 @@ palette
     font-size: 24px;
 }
 
+.PrereqChecks{
+    margin-bottom: 3px;
+    font-size:14px;
+}
+
+#prereqGroup{
+    max-height:300px;
+}
+
+label{
+    font-weight: bold;
+}
+
+.MaxWidthWrapper{
+    max-width:1000px;
+    margin: auto;
+    background-color: #406d77
+}
+
 body {
     font-family: Arial, sans-serif;
     /*background-color: #123a40;*/
@@ -178,8 +197,14 @@ SemesterHeader{
     font-size: large;
     text-align: center;
     font-weight: bold;
-    background-color: #406d77;;
+    background-color: #406d77;
 }
+
+.modal-header{background-color: #406d77;}
+.modal-body{background-color: #8fb0b8;}
+.modal-footer{background-color: #8fb0b8;}
+.modal-content{background-color: #8fb0b8;}
+.modal-dialog{background-color: #8fb0b8;}
 
 /*.InnerSlot{*/
 /*    background-color: ghostwhite;*/

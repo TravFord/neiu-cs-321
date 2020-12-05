@@ -96,6 +96,15 @@ public class Course {
         return output;
     }
 
+    public ArrayList<String> getPrereqIds() {
+        ArrayList<String> output = new ArrayList<>();
+        for(Course c : prereqs)
+        {
+            output.add(c.courseId.toString());
+        }
+        return output;
+    }
+
 
     public String getDeptAndNumber() {
         return this.dept + "-" + this.courseNumber;
@@ -108,6 +117,8 @@ public class Course {
         }
         return true;
     }
+
+
 
     public Boolean addPrereq(String courseName) // a courseName = CS-201, not 201 or Programming 1
     {

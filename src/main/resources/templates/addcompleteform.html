@@ -2,9 +2,10 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:insert="fragments/base :: headData">
-        <title>Thank You!</title>
-    </head>
+<head>
+    <div th:replace="fragments/base :: headData"></div>
+    <title>Add Complete</title>
+</head>
     <body>
         <nav th:insert="fragments/base :: navData"></nav>
         <div class="container-fluid mt-5">

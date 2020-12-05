@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +37,19 @@ public class CourseListController {
         return "courselist";
     }
 
+    @DeleteMapping("/delete/courseId")
+    public String processEditCourse(@PathVariable("courseId") long courseId, @Valid @ModelAttribute("course") Course course, Errors errors)
+    {
+        if(errors.hasErrors())
+        {
+            return "courselist";
+        }
+
+        Course deletedCourse = courseRepo.findById(courseId).get();
+        deletedCourse.deleteFromDb();
+
+        return "redirect:/courselist";
+    }
     @ModelAttribute
     public void addAttributes(Model model)
     {
@@ -50,6 +63,7 @@ public class CourseListController {
         }
         model.addAttribute("courses", limitedCourses);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("selectedCourse", new Course()); //Aaaaagh, I don't know how else to track which class is selected
 
     }
 
