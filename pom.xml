@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <spring.boot.mainclass>net.travisford.courseomatic.CourseOMaticApplication</spring.boot.mainclass>
     </properties>
 
     <dependencies>
