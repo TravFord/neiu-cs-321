@@ -213,31 +213,38 @@ public class Course {
     }
 
 
-    public static void seedCourses(ICourseRepository courseRepo) {
-
-        if (courseRepo.count() == 0)
+    public static void seedCourses(ICourseRepository courseRepo)
+    {
+        try
         {
-            List<String> courseStrings = new ArrayList<String>(Arrays.asList
-                    (
-                            "200;CS;Programming 1;MATH-173"
-                            ,"201;CS;Discrete Structures;MATH-173"
-                            ,"207;CS;Programming 2;CS-200,CS-201"
-                            ,"300;CS;Client Side Web Development;CS-201"
-                            ,"301;CS;Computer Organization;"
-                            ,"304;CS;Data Structures;CS-201,CS-207"
-                            ,"308;CS;Operating Systems;CS-207,CS-301"
-                            ,"315;CS;Modern Database Management;CS-207"
-                            ,"319;CS;Software Engineering;CS-304"
-                            ,"321;CS;Server Side Web Development;CS-207,CS-300"
-                            ,"324;CS;Intro To Design Of Algorithms;CS-304"
-                            ,"173;MATH;Some Math Class;"
-                            ,"300;CS;Server Side Web Development;"
-                            ,"300;CS;Server Side Web Development;"
-                            ,"300;CS;Server Side Web Development;"
-                    )
-            );
+            if (courseRepo.count() == 0)
+            {
+                List<String> courseStrings = new ArrayList<String>(Arrays.asList
+                        (
+                                "200;CS;Programming 1;MATH-173"
+                                , "201;CS;Discrete Structures;MATH-173"
+                                , "207;CS;Programming 2;CS-200,CS-201"
+                                , "300;CS;Client Side Web Development;CS-201"
+                                , "301;CS;Computer Organization;"
+                                , "304;CS;Data Structures;CS-201,CS-207"
+                                , "308;CS;Operating Systems;CS-207,CS-301"
+                                , "315;CS;Modern Database Management;CS-207"
+                                , "319;CS;Software Engineering;CS-304"
+                                , "321;CS;Server Side Web Development;CS-207,CS-300"
+                                , "324;CS;Intro To Design Of Algorithms;CS-304"
+                                , "173;MATH;Some Math Class;"
+                                , "300;CS;Server Side Web Development;"
+                                , "300;CS;Server Side Web Development;"
+                                , "300;CS;Server Side Web Development;"
+                        )
+                );
 
-            Course.regenerateCourses(courseRepo, courseStrings);
+                Course.regenerateCourses(courseRepo, courseStrings);
+            }
+        }catch(Exception ex)
+        {
+            System.out.println("Exception seeding courses: " + ex);
+            ex.printStackTrace();
         }
     }
 
