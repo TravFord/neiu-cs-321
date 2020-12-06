@@ -49,13 +49,13 @@ public class RegistrationController
     {
         if(errors.hasErrors())
         {
-            return "/registration";
+            return "registration";
         }
         if(userRepo.existsByUsernameIgnoreCase(registrationForm.getUsername()) == false) {
             userRepo.save(registrationForm.toUser(passwordEncoder));
             studyRepo.save(new CourseOfStudy(userRepo.findByUsernameIgnoreCase(registrationForm.getUsername())));
             return "redirect:/login";
         }
-        return "/registration";
+        return "registration";
     }
 }
