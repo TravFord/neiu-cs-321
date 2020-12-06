@@ -4,17 +4,20 @@ spring:
     console:
       - enabled: true
   datasource:
-    - url: ${CLEARDB_DATABASE_URL}
-    - username: admin
-    - password:
-    - driver-class-name: org.h2.Driver
+      - url: ${CLEARDB_DATABASE_URL}
+      - username: ${USERNAME}
+      - password: ${PASSWORD}
+      - driver-class-name: org.mysql.jdbc.Driver
+      - initialization-mode: always
+      - platform: mysql
   jpa:
     hibernate:
-      - ddl-auto: create-drop
+      - ddl-auto: create
+      - dialect: org.hibernate.dialect.MySQL5Dialect
 courses:
-  courseDisplayLimit: 20
+  courseDisplayLimit: 200
 server:
-  port: 8080
+  port: ${PORT}
   error:
     whitelabel:
       enabled: false
