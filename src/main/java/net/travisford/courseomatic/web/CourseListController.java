@@ -1,6 +1,8 @@
 package net.travisford.courseomatic.web;
 
 import net.travisford.courseomatic.Course;
+import net.travisford.courseomatic.CourseOfStudy;
+import net.travisford.courseomatic.data.CourseOfStudyRepository;
 import net.travisford.courseomatic.data.CourseProperties;
 import net.travisford.courseomatic.security.User;
 import net.travisford.courseomatic.data.ICourseRepository;
@@ -21,12 +23,12 @@ public class CourseListController {
 
     private ICourseRepository courseRepo;
     private CourseProperties properties;
-
+    private CourseOfStudyRepository studyRepo;
     @Autowired
-    public CourseListController(ICourseRepository courseRepo, CourseProperties properties)
+    public CourseListController(ICourseRepository courseRepo, CourseProperties properties, CourseOfStudyRepository studyRepo)
     {
        this.properties = properties;
-
+        this.studyRepo = studyRepo;
         this.courseRepo = courseRepo;
         Course.seedCourses(courseRepo);
     }
@@ -38,7 +40,7 @@ public class CourseListController {
     }
 
     @DeleteMapping("/delete/courseId")
-    public String processEditCourse(@PathVariable("courseId") long courseId, @Valid @ModelAttribute("course") Course course, Errors errors)
+    public String processDeleteCourse(@PathVariable("courseId") long courseId, @Valid @ModelAttribute("course") Course course, Errors errors)
     {
         if(errors.hasErrors())
         {
@@ -50,6 +52,22 @@ public class CourseListController {
 
         return "redirect:/courselist";
     }
+
+    @PostMapping("courseId")
+    public String scheduleCourse(@PathVariable("courseId") long courseId, @Valid @ModelAttribute("course") Course course, Errors errors)
+    {
+        if(errors.hasErrors())
+        {
+            return "courselist";
+        }
+        User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Course scheduled = courseRepo.findById(courseId).get();
+        CourseOfStudy cos = studyRepo.findAll().stream().filter(x->x.getUser().getId() == user.getId()).findAny().get();
+        cos.upsertCourse(scheduled,0);
+
+        return "redirect:/courselist";
+    }
+
     @ModelAttribute
     public void addAttributes(Model model)
     {
@@ -62,7 +80,7 @@ public class CourseListController {
             limitedCourses.add(courses.get(i));
         }
         model.addAttribute("courses", limitedCourses);
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         model.addAttribute("selectedCourse", new Course()); //Aaaaagh, I don't know how else to track which class is selected
 
     }

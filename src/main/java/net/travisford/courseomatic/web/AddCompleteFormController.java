@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AddCompleteFormController {
 
     @GetMapping()
-    public String addComplete(){
+    public String addComplete()
+    {
         return "addcompleteform";
     }
-
 }

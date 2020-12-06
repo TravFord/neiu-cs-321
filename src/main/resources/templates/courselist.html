@@ -27,9 +27,7 @@
                         <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"
                                 data-target="#detailModal" onclick="detailsModal(this.getAttribute('data-id'));">DETAILS</button>
                         <a th:href="@{/deletecourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-4 btn btn-secondary">DELETE</a>
-<!--                        <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"-->
-<!--                        <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"-->
-<!--                                data-target="#deleteModal" onclick="deleteModal(this.getAttribute('data-id'));">DELETE</button>-->
+                        <a th:href="@{/schedulecourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-12 clear btn btn-secondary">ADD TO PLAN</a>
                     </div>
                 </div>
             </div>

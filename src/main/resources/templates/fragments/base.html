@@ -55,6 +55,9 @@
                 <li class="nav-item" th:classappend="${#request.getServletPath() == '/courselist' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/courselist}">View Courses</a>
                 </li>
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/schedule' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/schedule}">View Schedule</a>
+                </li>
                 <li class="nav-item" th:classappend="${#request.getServletPath() == '/login' ? 'active' : ''}"
                     th:if="${#authentication.getName().equals('anonymousUser')}">
                     <a class="nav-link" th:href="@{/login}">Log In</a>
