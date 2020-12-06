@@ -4,6 +4,7 @@ import lombok.*;
 import net.travisford.courseomatic.security.User;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.*;
 
 @Data
@@ -17,55 +18,77 @@ public class CourseOfStudy
     @OneToOne
     private final User user;
 
-    @ElementCollection
-    private final Map<Course, Integer> courses = new HashMap<>() ;
+    @Getter
+    private String accessDate;
+
+    @OneToMany
+    private final List<Course> courses;
+
 
     public CourseOfStudy(User user)
     {
         this.user = user;
+        accessDate = Instant.now().toString();
+        courses = new ArrayList<>();
     }
+
 
     protected CourseOfStudy()
     {
         this.user=null;
+        courses = new ArrayList<>();
+        accessDate = Instant.now().toString();
     }
 
-    public void upsertCourse(Course course, int sequence)
+
+    public void addCourse(Course course)
     {
-        courses.putIfAbsent(course, sequence);
-        courses.replace(course, sequence);
+        if(!courses.contains(course))
+        {
+            courses.add(course);
+        }
+
+        accessDate = Instant.now().toString();
     }
+
 
     public void removeCourse(Course course)
     {
         courses.remove(course);
     }
 
-    public int getSequence(Course course)
+    public void updateAccessDate()
     {
-        if(courses.containsKey(course))
-        {
-            return courses.get(course);
-        }
-        else
-        {
-            return -1;
-        }
+        accessDate = Instant.now().toString();
     }
 
-    public ArrayList<Course> getCoursesBySequence(int seq)
-    {
-        ArrayList<Course> outCourses = new ArrayList<>();
-        for(Course c : courses.keySet())
-        {
-            if(courses.get(c).equals(seq))
-            {
-                outCourses.add(c);
-            }
-        }
 
-        return outCourses;
-    }
+//    public int getSequence(Course course)
+//    {
+//        if(courses.containsKey(course))
+//        {
+//            return courses.get(course);
+//        }
+//        else
+//        {
+//            return -1;
+//        }
+//    }
+
+
+//    public ArrayList<Course> getCoursesBySequence(int seq)
+//    {
+//        ArrayList<Course> outCourses = new ArrayList<>();
+//        for(Course c : courses.keySet())
+//        {
+//            if(courses.get(c).equals(seq))
+//            {
+//                outCourses.add(c);
+//            }
+//        }
+//
+//        return outCourses;
+//    }
 }
 
 

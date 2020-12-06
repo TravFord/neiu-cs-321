@@ -1,6 +1,8 @@
 package net.travisford.courseomatic.security;
 
 import lombok.extern.slf4j.Slf4j;
+import net.travisford.courseomatic.CourseOfStudy;
+import net.travisford.courseomatic.data.CourseOfStudyRepository;
 import net.travisford.courseomatic.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,12 +21,14 @@ import javax.validation.Valid;
 public class RegistrationController
 {
     private UserRepository userRepo;
+    private CourseOfStudyRepository studyRepo;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepo, PasswordEncoder passwordEncoder)
+    public RegistrationController(UserRepository userRepo, PasswordEncoder passwordEncoder, CourseOfStudyRepository studyRepo)
     {
         this.userRepo = userRepo;
+        this.studyRepo = studyRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -49,6 +53,7 @@ public class RegistrationController
         }
         if(userRepo.existsByUsernameIgnoreCase(registrationForm.getUsername()) == false) {
             userRepo.save(registrationForm.toUser(passwordEncoder));
+            studyRepo.save(new CourseOfStudy(userRepo.findByUsernameIgnoreCase(registrationForm.getUsername())));
             return "redirect:/login";
         }
         return "/registration";

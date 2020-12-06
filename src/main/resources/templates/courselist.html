@@ -13,8 +13,6 @@
         <div th:insert="fragments/base :: imageData"></div>
         <h1 class="row justify-content-center mt-2 mb-2">Available Courses:</h1>
         <h2 class="row justify-content-center mt-2 mb-4">Course List:</h2>
-
-
         <div  class="row justify-content-center align-self-center" id="coursesGroup" style="text-align: center">
             <div  class="card CourseCard col-sm-12 col-lg-3" style="float:left;" th:each="course : ${courses}">
                 <div class="card-header CourseCardHeader">
@@ -22,17 +20,17 @@
                     <div style="float:right;" th:text="${course.title}">Default Title</div>
                 </div>
                 <div class="card-body CourseCardBody">
+                    <form th:id="${course.courseId}" class="d-none" method="post" th:action="@{/courselist/{courseId}(courseId=${course.courseId})}" th:object="${course}"></form>
                     <div class="btn-group row w-100" role="group" style="margin:auto;">
                         <a th:href="@{/editcourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-4 btn btn-secondary">EDIT</a>
                         <button type="button" class="CourseButton col-4 btn btn-secondary" data-toggle="modal"  th:data-id="${course.courseId}"
                                 data-target="#detailModal" onclick="detailsModal(this.getAttribute('data-id'));">DETAILS</button>
                         <a th:href="@{/deletecourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-4 btn btn-secondary">DELETE</a>
-                        <a th:href="@{/schedulecourse/{courseId}(courseId=${course.courseId})}" class="CourseButton col-12 clear btn btn-secondary">ADD TO PLAN</a>
+                        <button th:form="${course.courseId}" class="CourseButton col-12 clear btn btn-secondary">ADD TO PLAN</button>
                     </div>
                 </div>
             </div>
         </div>
-
         <footer th:insert="fragments/base :: footerData">
         </footer>
         <div th:insert="fragments/base :: addCardArea"></div>
