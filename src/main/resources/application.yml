@@ -7,14 +7,13 @@ spring:
       url: ${CLEARDB_DATABASE_URL}
       username: ${USERNAME}
       password: ${PASSWORD}
-
       driver-class-name: com.mysql.jdbc.Driver
       initialization-mode: always
       platform: mysql
   jpa:
     hibernate:
-      - ddl-auto: create
-      - dialect: org.hibernate.dialect.MySQL5Dialect
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQL5Dialect
 courses:
   courseDisplayLimit: 200
 server:
