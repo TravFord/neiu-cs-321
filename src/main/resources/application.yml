@@ -2,14 +2,15 @@
 spring:
   h2:
     console:
-      - enabled: true
+      enabled: true
   datasource:
-      - url: ${CLEARDB_DATABASE_URL}
-      - username: ${USERNAME}
-      - password: ${PASSWORD}
-      - driver-class-name: org.mysql.jdbc.Driver
-      - initialization-mode: always
-      - platform: mysql
+      url: ${CLEARDB_DATABASE_URL}
+      username: ${USERNAME}
+      password: ${PASSWORD}
+
+      driver-class-name: com.mysql.jdbc.Driver
+      initialization-mode: always
+      platform: mysql
   jpa:
     hibernate:
       - ddl-auto: create
